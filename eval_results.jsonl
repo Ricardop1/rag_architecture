@@ -1,0 +1,10 @@
+{"id": "q1", "question": "What are the F1 Teams shutdown periods on the year 2026?", "skipped": false, "answer": "Based on the provided context (FIA 2026 F1 Regulations - Section F), F1 Teams must observe the following shutdown periods:\n\n*   **First Period:** Fourteen (14) consecutive calendar days during the months of July and/or August. If two consecutive Competitions during this period are separated by only seventeen (17) days, a shutdown period of thirteen (13) consecutive calendar days must be observed.\n*   **Second Period:** Nine (9) consecutive calendar days starting on the 24 December.\n\nF1 Teams should notify the FIA of their intended shutdown period within thirty (30) days of the start of the Championship.", "expected_answer": "all F1 Teams must observe two shutdown periods for the year ...", "retrieved_sources": [{"pdf_name": "FIA 2026 F1 Regulations - Section F [Operational] - Iss 05 - 2025-12-10.pdf", "page": 4}, {"pdf_name": "FIA 2026 F1 Regulations - Section F [Operational] - Iss 05 - 2025-12-10.pdf", "page": 5}, {"pdf_name": "fia_2026_f1_regulations_-_section_f_operational_-_iss_06_-_2026-02-27.pdf", "page": 4}], "expected_sources": [{"pdf_name": "FIA 2026 F1 Regulations - Section F [Operational] - Iss 05 - 2025-12-10.pdf", "page": "4", "passage": ""}], "exact_match": 0.0, "token_f1": 0.15384615384615383, "source_hit": 1.0}
+{"id": "q2", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q3", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q4", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q5", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q6", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q7", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q8", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q9", "question": "", "skipped": true, "reason": "empty question"}
+{"id": "q10", "question": "", "skipped": true, "reason": "empty question"}
