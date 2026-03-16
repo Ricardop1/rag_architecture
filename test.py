@@ -9,7 +9,7 @@ ROOT_DIR = Path(__file__).resolve().parent
 SRC_DIR = ROOT_DIR / "src"
 sys.path.insert(0, str(SRC_DIR))
 
-from answer import answer_with_context, retrieve
+from src.answer import ask, retrieve
 
 EVAL_FILE = ROOT_DIR / "eval.jsonl"
 RESULTS_FILE = ROOT_DIR / "eval_results.jsonl"
@@ -102,7 +102,7 @@ def evaluate_case(row: dict) -> dict:
             "source_hit": source_hit(chunks, row.get("source_passages", [])),
         }
 
-    answer = answer_with_context(question, chunks)
+    answer = ask(question, chunks)
     retrieved_sources = [
         {
             "pdf_name": chunk["metadata"].get("source", ""),

@@ -21,7 +21,7 @@ RERANKER_MAX_LENGTH = 512
 LLM_MODEL = "Qwen/Qwen3.5-9B:together"
 LLM_BASE_URL = "https://router.huggingface.co/v1"
 
-
+# Setting lru_cache maxsize to 1 since the reranker model is large and we want to avoid loading it multiple times during evaluation.
 @lru_cache(maxsize=1)
 def get_reranker():
 
@@ -35,7 +35,7 @@ def get_reranker():
 def rerank(query: str, documents: Sequence[Document]) -> list[tuple[int, float]]:
     if not documents:
         return []
-
+    
     scores = get_reranker().predict([(query, document.page_content) for document in documents])
     ranked = sorted(enumerate(scores), key=lambda item: float(item[1]), reverse=True)
     return [(index, float(score)) for index, score in ranked[:RERANK_TOP_K]]
@@ -45,17 +45,20 @@ def retrieve(query: str) -> list[dict]:
     if not query.strip():
         raise ValueError("Query must not be empty.")
 
+    # get chromadb collection 
     vector_store = Chroma(
         collection_name=COLLECTION_NAME,
         persist_directory=str(CHROMA_DIR),
         embedding_function=build_embeddings(),
     )
+    # get RETRIEVAL_TOP_K most similar chunks from the collection
     vector_results = vector_store.similarity_search_with_score(query=query, k=RETRIEVAL_TOP_K)
     if not vector_results:
         return []
 
     documents = [document for document, _score in vector_results]
     vector_scores = [float(score) for _document, score in vector_results]
+    # apply reranking to the retrieved chunks 
     reranked_documents = rerank(query, documents)
 
     return [
@@ -86,16 +89,17 @@ def build_context(chunks: list[dict]) -> str:
     return "\n\n".join(parts)
 
 
-def answer_with_context(query: str, chunks: list[dict]) -> str:
+def ask(query: str, chunks: list[dict]) -> str:
     token = os.environ.get("HF_TOKEN")
     if not token:
         raise ValueError("HF_TOKEN is not set.")
-
+    # create llm instance with langchain with Hugging Face endpoint
     llm = ChatOpenAI(
         model=LLM_MODEL,
         base_url=LLM_BASE_URL,
         api_key=token,
     )
+    # create prompt 
     message = HumanMessage(
         content=(
             "Answer the user question using only with the information in the context below. "
@@ -118,7 +122,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     print("Answer:")
-    print(answer_with_context(args.query, results))
+    print(ask(args.query, results))
     print()
     print("Sources used as context:")
     for result in results:

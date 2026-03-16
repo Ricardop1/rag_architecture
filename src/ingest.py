@@ -64,6 +64,7 @@ def ingest_pdfs() -> tuple[int, int, int]:
         page_documents.extend(normalize_documents(list_docs, pdf_path))
 
     tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL, trust_remote_code=True)
+    # aux setting to avoid warnings about truncation during text splitting
     tokenizer.model_max_length = 10**9
     text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(
         tokenizer=tokenizer,
